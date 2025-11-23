@@ -1,6 +1,6 @@
 import Overdue from "@/components/Overdue";
 import GetPaid from "@/components/GetPaid";
-import InvoiceDashboard from "@/components/InvoiceDashboard";
+import InvoiceDashboard from "@/components/invoice/InvoiceDashboard";
 
 const page = () => {
   return (
