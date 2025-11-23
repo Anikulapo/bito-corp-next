@@ -8,6 +8,11 @@ import {
   Plus,
   Calendar,
 } from "lucide-react";
+import PaidStatus from "@/components/status/Paid";
+import AwaitingStatus from "@/components/status/Awaiting";
+import OverdueStatus from "@/components/status/Overdue";
+import UncollectibleStatus from "@/components/status/Uncollectable";
+import Image from "next/image";
 
 type InvoiceStatus = "awaiting" | "paid" | "overdue" | "uncollectible" | string;
 
@@ -133,36 +138,6 @@ const InvoiceDashboard: React.FC = () => {
     { key: "uncollectible", label: "Uncollectible", count: 2 },
   ];
 
-  const getStatusColor = (status: InvoiceStatus): string => {
-    switch (status) {
-      case "paid":
-        return "bg-green-100 text-green-700";
-      case "awaiting":
-        return "bg-blue-100 text-blue-700";
-      case "overdue":
-        return "bg-red-100 text-red-700";
-      case "uncollectible":
-        return "bg-gray-100 text-gray-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
-
-  const getStatusLabel = (status: InvoiceStatus): string => {
-    switch (status) {
-      case "awaiting":
-        return "Awaiting Payment";
-      case "paid":
-        return "Paid";
-      case "overdue":
-        return "Overdue";
-      case "uncollectible":
-        return "Uncollectible";
-      default:
-        return status;
-    }
-  };
-
   const toggleInvoiceSelection = (id: string): void => {
     setSelectedInvoices((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
@@ -193,34 +168,33 @@ const InvoiceDashboard: React.FC = () => {
         {/* Tabs */}
         <div className="flex gap-6 mb-6 justify-between border-b border-[#E1E3E6]">
           <div className="flex gap-6">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`pb-3 font-medium transition-colors ${
-                    activeTab === tab.key
-                      ? "text-blue-600 border-b-2 border-blue-600"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  {tab.label} ({tab.count})
-                </button>
-              ))}
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`pb-3 font-medium transition-colors ${
+                  activeTab === tab.key
+                    ? "text-blue-600 border-b-2 border-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {tab.label} ({tab.count})
+              </button>
+            ))}
           </div>
 
-           <div className="relative">
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                size={20}
-              />
-              <input
-                type="text"
-                placeholder="Try invoice# or client name"
-                className="pl-10 pr-4 py-2  focus:outline-none w-64"
-              />
-            </div>
+          <div className="relative">
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              size={20}
+            />
+            <input
+              type="text"
+              placeholder="Try invoice# or client name"
+              className="pl-10 pr-4 py-2 focus:outline-0 font-trade w-64"
+            />
+          </div>
         </div>
-       
 
         {/* Filters and Search */}
         <div className="flex items-center justify-between mb-6">
@@ -254,7 +228,6 @@ const InvoiceDashboard: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600">Sort by:</span>
               <div className="relative">
@@ -273,30 +246,30 @@ const InvoiceDashboard: React.FC = () => {
         {/* Table */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="w-full">
-            <thead className=" border-b">
+            <thead className=" border-b border-[#E1E3E6]">
               <tr>
                 <th className="w-12 px-6 py-3"></th>
-                <th className="text-left px-6 py-3 text-sm font-medium text-gray-700">
+                <th className="text-left px-6 py-3 text-sm font-medium text-secondary">
                   <div className="flex items-center gap-1">
-                    Invoice# <ChevronDown size={16} />
+                    Invoice# <Image/>
                   </div>
                 </th>
-                <th className="text-left px-6 py-3 text-sm font-medium text-gray-700">
+                <th className="text-left px-6 py-3 text-sm font-medium text-secondary">
                   Invoice Date
                 </th>
-                <th className="text-left px-6 py-3 text-sm font-medium text-gray-700">
+                <th className="text-left px-6 py-3 text-sm font-medium text-secondary">
                   Client
                 </th>
-                <th className="text-left px-6 py-3 text-sm font-medium text-gray-700">
+                <th className="text-left px-6 py-3 text-sm font-medium text-secondary">
                   Status
                 </th>
-                <th className="text-left px-6 py-3 text-sm font-medium text-gray-700">
+                <th className="text-left px-6 py-3 text-sm font-medium text-secondary">
                   Due Date
                 </th>
-                <th className="text-right px-6 py-3 text-sm font-medium text-gray-700">
+                <th className="text-right px-6 py-3 text-sm font-medium text-secondary">
                   Total
                 </th>
-                <th className="text-right px-6 py-3 text-sm font-medium text-gray-700">
+                <th className="text-right px-6 py-3 text-sm font-medium text-secondary">
                   Amount Due
                 </th>
                 <th className="w-12 px-6 py-3"></th>
@@ -304,16 +277,13 @@ const InvoiceDashboard: React.FC = () => {
             </thead>
             <tbody className="divide-y">
               {invoices.map((invoice) => (
-                <tr
-                  key={invoice.id}
-                  className="hover:bg-gray-50 transition-colors"
-                >
+                <tr key={invoice.id} className=" border-[#E1E3E6]">
                   <td className="px-6 py-4">
                     <input
                       type="checkbox"
                       checked={selectedInvoices.includes(invoice.id)}
                       onChange={() => toggleInvoiceSelection(invoice.id)}
-                      className="w-4 h-4 rounded border-gray-300 focus:ring-blue-500 accent-[#0265DC]"
+                      className="w-4 h-4 rounded border-[#E1E3E6] focus:ring-blue-500 accent-[#0265DC]"
                     />
                   </td>
                   <td className="px-6 py-4">
@@ -324,25 +294,12 @@ const InvoiceDashboard: React.FC = () => {
                   <td className="px-6 py-4 text-gray-700">{invoice.date}</td>
                   <td className="px-6 py-4 text-gray-700">{invoice.client}</td>
                   <td className="px-6 py-4">
-                    <span
-                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                        invoice.status
-                      )}`}
-                    >
-                      {invoice.status === "awaiting" && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-600 mr-1.5"></span>
-                      )}
-                      {invoice.status === "overdue" && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-600 mr-1.5"></span>
-                      )}
-                      {invoice.status === "paid" && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-600 mr-1.5"></span>
-                      )}
-                      {invoice.status === "uncollectible" && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-gray-600 mr-1.5"></span>
-                      )}
-                      {getStatusLabel(invoice.status)}
-                    </span>
+                    {invoice.status === "paid" && <PaidStatus />}
+                    {invoice.status === "awaiting" && <AwaitingStatus />}
+                    {invoice.status === "overdue" && <OverdueStatus />}
+                    {invoice.status === "uncollectible" && (
+                      <UncollectibleStatus />
+                    )}
                   </td>
                   <td className="px-6 py-4 text-gray-700">{invoice.dueDate}</td>
                   <td className="px-6 py-4 text-right text-gray-700">
@@ -370,7 +327,6 @@ const InvoiceDashboard: React.FC = () => {
           </table>
 
           {/* Pagination */}
-
         </div>
       </div>
     </div>

@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const GetPaid = () => {
   return (
     <main className="p-6 bg-white flex gap-10 rounded-2xl w-[50%] ">
