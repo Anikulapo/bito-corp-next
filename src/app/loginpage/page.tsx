@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+"use client";
+
+import { useState } from 'react';
 import { Mail, Lock, Building2, MapPin, Phone } from 'lucide-react';
 
 export default function LoginPage() {

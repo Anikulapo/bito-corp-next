@@ -1,3 +1,37 @@
 @import "tailwindcss";
 
 
+
+@font-face {
+  font-family: 'TTLivret';
+  src: url('/fonts/TTLivretTextTrial-Rg.woff2') format('woff2'),
+       url('/fonts/TTLivretTextTrial-Rg.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TTLivret';
+  src: url('/fonts/TTLivretTextTrial-Bd.woff2') format('woff2'),
+       url('/fonts/TTLivretTextTrial-Bd.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* TradeGothic LT */
+@font-face {
+  font-family: 'TradeGothic';
+  src: url('/fonts/TradeGothicLT.woff2') format('woff2'),
+       url('/fonts/TradeGothicLT.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@theme{
+    --font-robo: var(--font-roboto), sans-serif;
+    --font-tt: TTLivret, sans-serif;
+    --font-trade: TradeGothic, sans-serif;
+    --color-secondary: #414346;
+    --color-primary:#1F2122;
+
+}

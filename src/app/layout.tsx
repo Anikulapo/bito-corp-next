@@ -1,18 +1,19 @@
+
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Provider } from "react-redux";
-import { store } from "@/state/store";
+
 import "./globals.css";
+import { Roboto } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+export const roboto = Roboto({
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-roboto",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
+
+
 
 export const metadata: Metadata = {
   title: "PayZen",
@@ -28,9 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className=""
       >
-        <Provider store={store}>{children}</Provider>
+        {children}
       </body>
     </html>
   );

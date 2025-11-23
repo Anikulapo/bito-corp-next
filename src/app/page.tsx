@@ -11,6 +11,6 @@ export default function Home() {
       router.push("/invoices");
   }, [ router]);
   return (
-    <div></div>
+    <div>Hi</div>
   );
 }
