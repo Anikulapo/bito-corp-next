@@ -41,7 +41,7 @@ export default function DateRangeDropdown({ dateRange, setDateRange }: Props) {
     <div className="relative w-52" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-between w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex items-center justify-between w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-secondary hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         {selectedLabel}
         <Calendar size={18} />
@@ -53,7 +53,7 @@ export default function DateRangeDropdown({ dateRange, setDateRange }: Props) {
             <button
               key={option.key}
               onClick={() => handleSelect(option.key)}
-              className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 ${
+              className={`block w-full text-left px-4 py-2 text-secondary hover:bg-gray-100 ${
                 dateRange === option.key ? "font-semibold bg-gray-100" : ""
               }`}
             >

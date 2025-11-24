@@ -30,7 +30,7 @@ export default function InvoiceRow({
   toggleSelection,
 }: Props) {
   return (
-    <tr className="border-[#E1E3E6]">
+    <tr className="border-[#E1E3E6] dark:border-[#3F3F3F]">
       <td className="px-6 py-4">
         <input
           type="checkbox"
@@ -50,15 +50,15 @@ export default function InvoiceRow({
         {invoice.status === "overdue" && <OverdueStatus />}
         {invoice.status === "uncollectable" && <UncollectibleStatus />}
       </td>
-      <td className="px-6 py-4 text-gray-700">{invoice.dueDate}</td>
-      <td className="px-6 py-4 text-right text-gray-700">
+      <td className="px-6 py-4 text-secondary">{invoice.dueDate}</td>
+      <td className="px-6 py-4 text-right text-secondary">
         $
         {invoice.total.toLocaleString("en-US", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })}
       </td>
-      <td className="px-6 py-4 text-right text-gray-700">
+      <td className="px-6 py-4 text-right text-secondary">
         $
         {invoice.amountDue.toLocaleString("en-US", {
           minimumFractionDigits: 2,

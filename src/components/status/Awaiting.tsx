@@ -3,7 +3,7 @@ export default function Awaiting() {
     <span
       className="
         inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium
-        bg-blue-100 text-blue-700
+        bg-[#EDEEFF] text-[#5258E4] dark:text-[#A7AAFF] dark:bg-[#3F3F3F]
       "
     >
       <span

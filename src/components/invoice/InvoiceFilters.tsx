@@ -23,7 +23,7 @@ export default function InvoiceFilters({sortOption, setSortOption}: {sortOption:
           <select
             value={clientFilter}
             onChange={(e) => setClientFilter(e.target.value)}
-            className="appearance-none min-w-[200px] bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="appearance-none min-w-[200px] bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-secondary hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All clients</option>
           </select>

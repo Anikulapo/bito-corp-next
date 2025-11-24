@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import ThemeToggle from "@/components/ThemeToggle";
 
 const Header = () => {
   const pathname = usePathname();
@@ -26,8 +25,8 @@ const Header = () => {
               <span
                 className={`${
                   pathname === `/${item.toLowerCase()}`
-                    ? "text-[#5258E4]"
-                    : "text-primary group-hover:text-[#5258E4]"
+                    ? "text-bland"
+                    : "text-primary group-hover:text-bland"
                 }`}
               >
                 {item}
@@ -45,7 +44,6 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <ThemeToggle />
         <button className="cursor-pointer p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
           <Image
             src="/images/bell.svg"

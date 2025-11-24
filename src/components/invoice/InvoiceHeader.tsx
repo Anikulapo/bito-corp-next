@@ -11,7 +11,7 @@ export default function InvoiceHeader() {
     <div className="flex items-center justify-between mb-8 ">
       <div className="flex items-center gap-6">
         <div className="flex gap-4 items-center">
-          <button className="text-2xl font-semibold font-tt tracking-[-1px] relative text-black  pb-1 cursor-pointer">
+          <button className="text-2xl font-semibold font-tt tracking-[-1px] relative text-black dark:text-white  pb-1 cursor-pointer">
             Invoices
             <Image
                       src="/images/highlight.svg"

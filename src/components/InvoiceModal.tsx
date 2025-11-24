@@ -101,7 +101,7 @@ export default function InvoiceModal({
             </button>
             <button
             onClick={()=> onClose()}
-            className="px-4 py-2 text-brand border border-brand  rounded-full cursor-pointer">
+            className="px-4 py-2 text-brand  border border-brand  rounded-full cursor-pointer">
               Save as Draft
             </button>
             <button className="px-4 py-2 bg-brand text-white rounded-full hover:bg-indigo-700 flex items-center gap-1">
@@ -213,20 +213,20 @@ export default function InvoiceModal({
                 <table className="w-full">
                   <thead className="bg-gray-50">
                     <tr className="font-robo text-sm">
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 w-8"></th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-secondary w-8"></th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-secondary">
                         Item Details
                       </th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-24">
+                      <th className="px-4 py-3 text-right text-sm font-medium text-secondary w-24">
                         Qty
                       </th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-32">
+                      <th className="px-4 py-3 text-right text-sm font-medium text-secondary w-32">
                         Rate
                       </th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-32">
+                      <th className="px-4 py-3 text-right text-sm font-medium text-secondary w-32">
                         Discount
                       </th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-24">
+                      <th className="px-4 py-3 text-right text-sm font-medium text-secondary w-24">
                         Amount
                       </th>
                       <th className="w-10"></th>
@@ -291,7 +291,7 @@ export default function InvoiceModal({
           <div className="w-80 overflow-y-auto">
             <div className="p-4">
               {/* Preview Toggle */}
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-[#F6F7F8] mb-3">
+              <div className="flex items-center justify-between p-3 rounded-2xl bg-[#F6F7F8] dark:bg-[#262626] mb-3">
                 <span className="text-[16px] font-bold font-robo">
                   Preview Invoice
                 </span>
@@ -310,7 +310,7 @@ export default function InvoiceModal({
               </div>
 
               {/* Customization Section */}
-              <div className="mb-3 rounded-2xl bg-[#F6F7F8] p-3">
+              <div className="mb-3 rounded-2xl bg-[#F6F7F8] dark:bg-[#262626] p-3">
                 <button
                   onClick={() => setCustomizationOpen(!customizationOpen)}
                   className="flex font-tt items-center justify-between w-full text-left text-[20px] font-semibold mb-3"
@@ -334,7 +334,7 @@ export default function InvoiceModal({
                           className={`flex-1 px-2 py-1 text-[12px] rounded-full font-bold transition-all duration-300 ${
                             templateStyle === "simple"
                               ? "bg-white text-primary"
-                              : "text-secondary"
+                              : "text-secondary dark:text-black"
                           }`}
                         >
                           Simple
@@ -344,7 +344,7 @@ export default function InvoiceModal({
                           className={`flex-1 px-3 py-2 text-[12px] rounded-full font-bold transition-all duration-300 ${
                             templateStyle === "modern"
                               ? "bg-white text-primary"
-                              : "text-secondary"
+                              : "text-secondary dark:text-black"
                           }`}
                         >
                           Modern
@@ -359,7 +359,7 @@ export default function InvoiceModal({
                           className={`flex-1 px-2 py-1 text-[12px] rounded-full font-bold transition-all duration-300 ${
                             fontStyle === "classic"
                               ? "bg-white text-primary"
-                              : "text-secondary"
+                              : "text-secondary dark:text-black"
                           }`}
                         >
                           Classic
@@ -369,7 +369,7 @@ export default function InvoiceModal({
                           className={`flex-1 px-3 py-2 text-[12px] rounded-full font-bold transition-all duration-300 ${
                             fontStyle === "modern"
                               ? "bg-white text-primary"
-                              : "text-secondary"
+                              : "text-secondary dark:text-black"
                           }`}
                         >
                           Modern
@@ -381,7 +381,7 @@ export default function InvoiceModal({
               </div>
 
               {/* Record Section */}
-              <div className="rounded-2xl bg-[#F6F7F8] p-3">
+              <div className="rounded-2xl bg-[#F6F7F8] dark:bg-[#262626] p-3">
                 <button
                   onClick={() => setRecordOpen(!recordOpen)}
                   className="flex items-center justify-between w-full text-left font-medium mb-3"

@@ -34,7 +34,7 @@ export default function SortDropdown({ sortOption, setSortOption }: Props) {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex gap-2 justify-between items-center bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex gap-2 justify-between items-center bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-secondary hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         {sortOption}
         <ChevronDown size={16} />
@@ -46,7 +46,7 @@ export default function SortDropdown({ sortOption, setSortOption }: Props) {
             <button
               key={option}
               onClick={() => handleSelect(option)}
-              className={`block w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 ${
+              className={`block w-full text-left px-3 py-2 text-secondary hover:bg-gray-100 ${
                 sortOption === option ? "font-semibold bg-gray-100" : ""
               }`}
             >

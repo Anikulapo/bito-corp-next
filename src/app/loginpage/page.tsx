@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Mail, Lock, Building2, MapPin, Phone } from "lucide-react";
-import ThemeToggle from "@/components/ThemeToggle";
 import { useAppSelector } from "@/state/hooks";
 
 export default function LoginPage() {
@@ -76,9 +75,6 @@ export default function LoginPage() {
     <div
       className={`relative min-h-screen ${bgColor} flex items-center justify-center px-4 transition-colors duration-200`}
     >
-      <div className="absolute top-6 right-6">
-        <ThemeToggle />
-      </div>
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">

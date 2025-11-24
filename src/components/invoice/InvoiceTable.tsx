@@ -13,7 +13,7 @@ export default function InvoiceTable({ invoices, selectedInvoices, toggleInvoice
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <table className="w-full">
-        <thead className="border-b border-[#E1E3E6]">
+        <thead className="border-b border-[#E1E3E6] dark:border-[#3F3F3F]">
           <tr>
             <th className="w-12 px-6 py-3"></th>
             <th className="text-left px-6 py-3 text-sm font-medium text-secondary">Invoice#</th>

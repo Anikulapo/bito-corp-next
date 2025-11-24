@@ -42,7 +42,7 @@ export default function InvoiceTabs() {
             onClick={() => handleTabClick(tab.key)}
             className={`pb-3 font-medium transition-colors cursor-pointer ${
               statusFilter === tab.key
-                ? "text-[#5258E4] border-b-2 border-[#5258E4]"
+                ? "text-bland border-b-2 border-bland"
                 : "text-primary "
             }`}
           >

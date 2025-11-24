@@ -39,7 +39,7 @@ export default function InvoicesPerPageDropdown() {
             <button
               key={value}
               onClick={() => handleSelect(value)}
-              className={`block w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 ${
+              className={`block w-full text-left px-3 py-2 text-secondary hover:bg-gray-100 ${
                 perPage === value ? "font-semibold bg-gray-100" : ""
               }`}
             >
@@ -50,7 +50,7 @@ export default function InvoicesPerPageDropdown() {
       )}
       <button
         onClick={() => setOpen(!open)}
-        className="flex gap-1 items-center w-full bg-white border border-gray-300 rounded-lg px-2 py-2 text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex gap-1 items-center w-full bg-white border border-gray-300 rounded-lg px-2 py-2 text-secondary hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         {perPage}
         <ChevronDown size={16} />
