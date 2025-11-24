@@ -33,5 +33,63 @@
     --font-trade: TradeGothic, sans-serif;
     --color-secondary: #414346;
     --color-primary:#1F2122;
+    --color-brand:#5258E4;
+    --color-d:#EBEBEB
 
+}
+
+:root {
+  --app-bg-page: #f6f7f8;
+  --app-bg-surface: #ffffff;
+  --app-text-primary: #1f2122;
+  --app-text-secondary: #414346;
+}
+
+.dark {
+  color-scheme: dark;
+  --app-bg-page: #262626;
+  --app-bg-surface: #323232;
+  --app-text-primary: #ebebeb;
+  --app-text-secondary: #d1d1d1;
+}
+
+html {
+  background-color: var(--app-bg-page);
+  color: var(--app-text-primary);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: inherit;
+  color: inherit;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.bg-page {
+  background-color: var(--app-bg-page);
+}
+
+.bg-surface {
+  background-color: var(--app-bg-surface);
+}
+
+.text-primary {
+  color: var(--app-text-primary);
+}
+
+.text-secondary {
+  color: var(--app-text-secondary);
+}
+
+.dark .bg-white {
+  background-color: #323232 !important;
+}
+
+.dark .text-primary {
+  color: #ebebeb !important;
+}
+
+.dark .text-secondary {
+  color: #d1d1d1 !important;
 }

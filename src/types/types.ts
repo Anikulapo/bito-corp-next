@@ -1,9 +1,9 @@
 
-export type InvoiceStatus = "awaiting" | "paid" | "overdue" | "uncollectible" | string;
+export type InvoiceStatus = "awaiting" | "paid" | "overdue" | "uncollectable" | string;
 
 export type Invoice = {
   id: string;          // Invoice number
-  date: string;        // ISO string 
+  issueDate: string;        // ISO string 
   client: string;
   status: InvoiceStatus;
   dueDate: string;     // ISO string
@@ -12,7 +12,7 @@ export type Invoice = {
 };
 
 
-export type TabKey = "all" | "outstanding" | "paid" | "uncollectible";
+export type TabKey = "all" | "outstanding" | "paid" | "uncollectable";
 
 export type Tab = {
   key: TabKey | string;

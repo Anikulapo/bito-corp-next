@@ -1,48 +1,103 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InvoiceHeader from "./InvoiceHeader";
 import InvoiceTabs from "./InvoiceTabs";
 import InvoiceFilters from "./InvoiceFilters";
 import InvoiceTable from "./InvoiceTable";
-import { Invoice } from "@/types/types";
-
-const tabs = [
-  { key: "all", label: "All", count: 40 },
-  { key: "outstanding", label: "Outstanding", count: 5 },
-  { key: "paid", label: "Paid", count: 33 },
-  { key: "uncollectible", label: "Uncollectible", count: 2 },
-];
-
-// Replace this with mock data or Redux state later
-const invoices: Invoice[] = [
-  { id: "00015", date: "10 Oct 2023", client: "Telekitty", status: "awaiting", dueDate: "21 Oct 2023", total: 2414.98, amountDue: 2414.98 },
-  { id: "00014", date: "08 Oct 2023", client: "Fast Company", status: "paid", dueDate: "15 Oct 2023", total: 1747.06, amountDue: 0 },
-  { id: "00013", date: "02 Oct 2023", client: "Off-Grid", status: "awaiting", dueDate: "30 Oct 2023", total: 2141.9, amountDue: 2141.9 },
-];
+import { Invoice } from "@/state/invoice/invoiceSlice";
+import InvoiceFooter from "./InvoiceFooter";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { setInvoices } from "@/state/invoice/invoiceSlice";
+import { useInvoices } from "@/hooks/useInvoices";
+import InvoiceSkeletonRow from "./InvoiceSkeletonRow";
+import { RootState } from "@/state/store";
 
 export default function InvoiceDashboard() {
-  const [activeTab, setActiveTab] = useState("all");
+  const [sortOption, setSortOption] = useState("Invoice#");
   const [selectedInvoices, setSelectedInvoices] = useState<string[]>([]);
+  const invoices = useAppSelector((state) => state.invoices.invoices);
+  const itemsPerPage = useAppSelector((state) => state.invoices.itemsPerPage);
+  const searchTerm = useAppSelector((state) => state.invoices.searchTerm);
+  const statusFilter = useAppSelector((state) => state.invoices.statusFilter);
+  const currentPage = useAppSelector((state) => state.invoices.currentPage);
+  const dispatch = useAppDispatch();
+
+  const { data, isLoading } = useInvoices();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setInvoices(data));
+    }
+  }, [data, dispatch]);
 
   const toggleInvoiceSelection = (id: string) => {
-    setSelectedInvoices(prev =>
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    setSelectedInvoices((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
 
-  const filteredInvoices = invoices; // TODO: filter by activeTab
+  const filteredInvoices = invoices.filter((invoice) => {
+    // Status filter
+    const matchesStatus =
+      statusFilter === "all" ? true : invoice.status === statusFilter;
+
+    // Search filter: check ID or client name
+    const matchesSearch =
+      invoice.id.includes(searchTerm) ||
+      invoice.client.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesStatus && matchesSearch;
+  });
+
+  filteredInvoices.sort((a, b) => {
+  switch (sortOption) {
+    case "Invoice#":
+      return a.id.localeCompare(b.id);
+    case "Date":
+      return new Date(a.issueDate).getTime() - new Date(b.issueDate).getTime();
+    case "Client":
+      return a.client.localeCompare(b.client);
+    case "Amount":
+      return a.total - b.total;
+    case "Status":
+      return a.status.localeCompare(b.status);
+    default:
+      return 0;
+  }
+});
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const paginatedInvoices = filteredInvoices.slice(startIndex, endIndex);
 
   return (
     <div className="p-6 bg-white rounded-2xl">
       <InvoiceHeader />
-      <InvoiceTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <InvoiceFilters />
-      <InvoiceTable
-        invoices={filteredInvoices}
-        selectedInvoices={selectedInvoices}
-        toggleInvoiceSelection={toggleInvoiceSelection}
-      />
+      <InvoiceTabs />
+      <InvoiceFilters setSortOption={setSortOption} sortOption={sortOption}/>
+      {isLoading ? (
+        <>
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+          <InvoiceSkeletonRow />
+        </>
+      ) : (
+        <InvoiceTable
+          invoices={paginatedInvoices}
+          selectedInvoices={selectedInvoices}
+          toggleInvoiceSelection={toggleInvoiceSelection}
+        />
+      )}
+
+      <InvoiceFooter invoice={filteredInvoices} />
     </div>
   );
 }

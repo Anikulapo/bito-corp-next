@@ -3,17 +3,13 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Roboto } from "next/font/google";
-
+import { AppProviders } from "./providers";
 
 export const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   variable: "--font-roboto",
 });
-
-
-
-
 
 export const metadata: Metadata = {
   title: "PayZen",
@@ -28,10 +24,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className=""
-      >
-        {children}
+      <body className={`${roboto.variable} antialiased`}>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

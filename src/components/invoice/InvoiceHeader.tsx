@@ -2,8 +2,11 @@
 
 import { Plus } from "lucide-react";
 import Image from "next/image";
+import InvoiceModal from "../InvoiceModal";
+import { useState } from "react";
 
 export default function InvoiceHeader() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="flex items-center justify-between mb-8 ">
       <div className="flex items-center gap-6">
@@ -30,10 +33,12 @@ export default function InvoiceHeader() {
           </button>
         </div>
       </div>
-      <button className="flex items-center gap-2 bg-[#5258E4] text-[16px] rounded-full font-robo font-bold text-white px-5 py-3 hover:bg-blue-700 transition-colors">
+      <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 bg-brand text-[16px] rounded-full font-robo font-bold cursor-pointer text-white px-5 py-3 hover:bg-blue-700 transition-colors duration-500">
         <Plus size={20} />
         New Invoice
       </button>
+
+    <InvoiceModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

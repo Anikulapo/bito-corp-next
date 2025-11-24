@@ -1,33 +1,111 @@
 "use client";
-import { useState } from 'react';
-import { X, ChevronDown, Calendar, Settings, Trash2, GripVertical } from 'lucide-react';
+import { useState, useRef, DragEvent, ChangeEvent } from "react";
+import { X, ChevronDown, Settings, Trash2, GripVertical } from "lucide-react";
+import LogoUploader from "./LogoUploader";
 
-export default function InvoiceModal() {
+type InvoiceModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+export default function InvoiceModal({
+  isOpen = false,
+  onClose,
+}: InvoiceModalProps) {
   const [showPreview, setShowPreview] = useState(false);
-  const [templateStyle, setTemplateStyle] = useState('simple');
-  const [fontStyle, setFontStyle] = useState('classic');
+  const [templateStyle, setTemplateStyle] = useState("simple");
+  const [fontStyle, setFontStyle] = useState("classic");
   const [paymentReceived, setPaymentReceived] = useState(false);
   const [markAsSent, setMarkAsSent] = useState(false);
   const [customizationOpen, setCustomizationOpen] = useState(true);
   const [recordOpen, setRecordOpen] = useState(true);
-  const [issueDate, setIssueDate] = useState('2023-11-01');
-  const [dueDate, setDueDate] = useState('');
+  const [issueDate, setIssueDate] = useState("2023-11-01");
+  const [dueDate, setDueDate] = useState("");
+
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Handle file upload via input or drag-and-drop
+  const handleFileUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) setImagePreview(e.target.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Input change
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) handleFileUpload(file);
+  };
+
+  // Drag and drop
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFileUpload(e.dataTransfer.files[0]);
+      e.dataTransfer.clearData();
+    }
+  };
+
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  // Remove image
+  const removeImage = () => {
+    setImagePreview(null);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  const handleClick = () => {
+    onClose()
+    removeImage()
+  }
+
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl mx-auto overflow-hidden flex flex-col">
+    <div
+      aria-hidden={!isOpen}
+      className={`fixed inset-0 z-40 flex items-center justify-center p-4 transition-all duration-300 ${
+        isOpen ? "pointer-events-auto" : "pointer-events-none"
+      }`}
+    >
+      {/* Overlay */}
+      <div
+        onClick={handleClick}
+        className={`fixed inset-0 bg-black transition-opacity duration-300 ${
+          isOpen ? "opacity-30" : "opacity-0"
+        }`}
+      />
+
+      {/* Modal container */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        className={`bg-white rounded-2xl shadow-xl w-full max-w-6xl max-h-[720px] mx-auto z-50 overflow-auto flex flex-col transform transition-all duration-300 ease-out ${
+          isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        }`}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h1 className="text-2xl font-semibold">Add a New Invoice</h1>
-          <div className="flex items-center gap-3">
-            <button className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#D5D5D5]">
+          <h1 className="text-2xl font-semibold font-tt">Add a New Invoice</h1>
+          <div className="flex items-center gap-3 font-robo font-bold text-[16px]">
+            <button
+              onClick={handleClick}
+              className="px-3 py-1 text-primary cursor-pointer"
+            >
               Cancel
             </button>
-            <button className="px-4 py-2 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-lg">
+            <button
+            onClick={()=> onClose()}
+            className="px-4 py-2 text-brand border border-brand  rounded-full cursor-pointer">
               Save as Draft
             </button>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2">
-              Save and Send
+            <button className="px-4 py-2 bg-brand text-white rounded-full hover:bg-indigo-700 flex items-center gap-1">
+              Save and Sent
               <ChevronDown className="w-4 h-4" />
             </button>
           </div>
@@ -37,21 +115,20 @@ export default function InvoiceModal() {
         <div className="flex flex-1 overflow-hidden">
           {/* Left Panel - Form */}
           <div className="flex-1 overflow-y-auto p-6">
-            <div className="border rounded-lg p-6">
+            <div className="border-[#AAADB1] border rounded-lg p-6">
               {/* Business Info Section */}
               <div className="flex justify-between mb-8">
-                <div className="w-64 h-32 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-500">
-                  <p className="text-sm">Drag your Logo here,</p>
-                  <p className="text-sm">
-                    or <span className="text-indigo-600 cursor-pointer">select a file</span>
-                  </p>
-                </div>
+                <LogoUploader handleDragOver={handleDragOver} handleDrop={handleDrop} handleFileChange={handleInputChange} image={imagePreview}  inputRef={inputRef as React.RefObject<HTMLInputElement>}/>
                 <div className="text-right">
                   <p className="font-medium">Meng Design</p>
                   <p className="text-sm text-gray-600">+886123456789</p>
-                  <p className="text-sm text-gray-600">mengdesigntw@gmail.com</p>
+                  <p className="text-sm text-gray-600">
+                    mengdesigntw@gmail.com
+                  </p>
                   <p className="text-sm text-gray-600">Taiwan</p>
-                  <button className="text-indigo-600 text-sm mt-2">Edit business info</button>
+                  <button className="text-indigo-600 text-sm mt-2">
+                    Edit business info
+                  </button>
                 </div>
               </div>
 
@@ -104,7 +181,9 @@ export default function InvoiceModal() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Purchase Order</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Purchase Order
+                  </label>
                   <input
                     type="text"
                     placeholder="e.g. PO #00023"
@@ -133,13 +212,23 @@ export default function InvoiceModal() {
               <div className="border rounded-lg overflow-hidden">
                 <table className="w-full">
                   <thead className="bg-gray-50">
-                    <tr>
+                    <tr className="font-robo text-sm">
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 w-8"></th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Item Details</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 w-24">Qty</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 w-32">Rate</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 w-32">Discount</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 w-24">Amount</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                        Item Details
+                      </th>
+                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-24">
+                        Qty
+                      </th>
+                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-32">
+                        Rate
+                      </th>
+                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-32">
+                        Discount
+                      </th>
+                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700 w-24">
+                        Amount
+                      </th>
                       <th className="w-10"></th>
                     </tr>
                   </thead>
@@ -199,84 +288,88 @@ export default function InvoiceModal() {
           </div>
 
           {/* Right Panel - Preview & Settings */}
-          <div className="w-80 border-l bg-gray-50 overflow-y-auto">
+          <div className="w-80 overflow-y-auto">
             <div className="p-4">
               {/* Preview Toggle */}
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm font-medium">Preview Invoice</span>
+              <div className="flex items-center justify-between p-3 rounded-2xl bg-[#F6F7F8] mb-3">
+                <span className="text-[16px] font-bold font-robo">
+                  Preview Invoice
+                </span>
                 <button
                   onClick={() => setShowPreview(!showPreview)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    showPreview ? 'bg-indigo-600' : 'bg-gray-300'
+                  className={`relative inline-flex h-4 w-6 items-center rounded-2xl transition-colors ${
+                    showPreview ? "bg-brand" : "bg-primary"
                   }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      showPreview ? 'translate-x-6' : 'translate-x-1'
+                    className={`inline-block h-2 w-2 transform rounded-full bg-white transition-transform duration-500 ${
+                      showPreview ? "translate-x-[13px]" : "translate-x-[3px]"
                     }`}
                   />
                 </button>
               </div>
 
               {/* Customization Section */}
-              <div className="mb-4">
+              <div className="mb-3 rounded-2xl bg-[#F6F7F8] p-3">
                 <button
                   onClick={() => setCustomizationOpen(!customizationOpen)}
-                  className="flex items-center justify-between w-full text-left font-medium mb-3"
+                  className="flex font-tt items-center justify-between w-full text-left text-[20px] font-semibold mb-3"
                 >
                   Customization
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
-                      customizationOpen ? 'rotate-180' : ''
+                      customizationOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
                 {customizationOpen && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm mb-2">Template style</label>
-                      <div className="flex gap-2">
+                  <div className="space-y-4 font-trade">
+                    <div className="flex justify-between items-center">
+                      <label className="block text-[16px] mb-2">
+                        Template style
+                      </label>
+                      <div className="flex gap-1 rounded-full bg-[#E1E3E6] p-1 ">
                         <button
-                          onClick={() => setTemplateStyle('simple')}
-                          className={`flex-1 px-3 py-2 text-sm rounded-lg border ${
-                            templateStyle === 'simple'
-                              ? 'bg-indigo-50 border-indigo-600 text-indigo-600'
-                              : 'bg-white border-gray-300'
+                          onClick={() => setTemplateStyle("simple")}
+                          className={`flex-1 px-2 py-1 text-[12px] rounded-full font-bold transition-all duration-300 ${
+                            templateStyle === "simple"
+                              ? "bg-white text-primary"
+                              : "text-secondary"
                           }`}
                         >
                           Simple
                         </button>
                         <button
-                          onClick={() => setTemplateStyle('modern')}
-                          className={`flex-1 px-3 py-2 text-sm rounded-lg border ${
-                            templateStyle === 'modern'
-                              ? 'bg-indigo-50 border-indigo-600 text-indigo-600'
-                              : 'bg-white border-gray-300'
+                          onClick={() => setTemplateStyle("modern")}
+                          className={`flex-1 px-3 py-2 text-[12px] rounded-full font-bold transition-all duration-300 ${
+                            templateStyle === "modern"
+                              ? "bg-white text-primary"
+                              : "text-secondary"
                           }`}
                         >
                           Modern
                         </button>
                       </div>
                     </div>
-                    <div>
-                      <label className="block text-sm mb-2">Font</label>
-                      <div className="flex gap-2">
+                    <div className="flex justify-between items-center">
+                      <label className="block text-[16px] mb-2">Font</label>
+                      <div className="flex gap-1 rounded-full bg-[#E1E3E6] p-1 ">
                         <button
-                          onClick={() => setFontStyle('classic')}
-                          className={`flex-1 px-3 py-2 text-sm rounded-lg border ${
-                            fontStyle === 'classic'
-                              ? 'bg-indigo-50 border-indigo-600 text-indigo-600'
-                              : 'bg-white border-gray-300'
+                          onClick={() => setFontStyle("classic")}
+                          className={`flex-1 px-2 py-1 text-[12px] rounded-full font-bold transition-all duration-300 ${
+                            fontStyle === "classic"
+                              ? "bg-white text-primary"
+                              : "text-secondary"
                           }`}
                         >
                           Classic
                         </button>
                         <button
-                          onClick={() => setFontStyle('modern')}
-                          className={`flex-1 px-3 py-2 text-sm rounded-lg border ${
-                            fontStyle === 'modern'
-                              ? 'bg-indigo-50 border-indigo-600 text-indigo-600'
-                              : 'bg-white border-gray-300'
+                          onClick={() => setFontStyle("modern")}
+                          className={`flex-1 px-3 py-2 text-[12px] rounded-full font-bold transition-all duration-300 ${
+                            fontStyle === "modern"
+                              ? "bg-white text-primary"
+                              : "text-secondary"
                           }`}
                         >
                           Modern
@@ -288,7 +381,7 @@ export default function InvoiceModal() {
               </div>
 
               {/* Record Section */}
-              <div>
+              <div className="rounded-2xl bg-[#F6F7F8] p-3">
                 <button
                   onClick={() => setRecordOpen(!recordOpen)}
                   className="flex items-center justify-between w-full text-left font-medium mb-3"
@@ -296,7 +389,7 @@ export default function InvoiceModal() {
                   Record the invoice
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
-                      recordOpen ? 'rotate-180' : ''
+                      recordOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
@@ -309,7 +402,9 @@ export default function InvoiceModal() {
                         onChange={(e) => setPaymentReceived(e.target.checked)}
                         className="w-4 h-4 rounded border-gray-300"
                       />
-                      <span className="text-sm">I have received the payment</span>
+                      <span className="text-sm">
+                        I have received the payment
+                      </span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input

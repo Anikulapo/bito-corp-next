@@ -1,4 +1,13 @@
+"use client";
+import { useSelector } from "react-redux";
+import {
+  selectTotalPaid,
+  selectTotalUncollectible,
+} from "@/state/invoice/invoiceSelectors";  
+
 const GetPaid = () => {
+  const totalPaid = useSelector(selectTotalPaid);
+const totalUncollectible = useSelector(selectTotalUncollectible);
   return (
     <main className="p-6 bg-white flex gap-10 rounded-2xl w-[50%] ">
       <section className="flex flex-col gap-3 w-full">
@@ -6,16 +15,16 @@ const GetPaid = () => {
           Get paid
         </p>
         <div className="flex items-end gap-2">
-          <p className="text-[36px] font-tt flex justify-end">$1747.06 </p>
+          <p className="text-[36px] font-tt flex justify-end">${totalPaid}</p>
           <p className="text-primary text-[16px] pb-2">USD</p>
         </div>
       </section>
       <section className="flex flex-col gap-3  w-full">
         <p className="font-robo font-bold text-[16px] text-secondary">
-          Uncollectible
+          Uncollectable
         </p>
         <div className="flex items-end gap-2">
-          <p className="text-[36px] font-tt flex justify-end">$0.00 </p>
+          <p className="text-[36px] font-tt flex justify-end">${totalUncollectible} </p>
           <p className="text-primary text-[16px] pb-2">USD</p>
         </div>
       </section>

@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import { Mail, Lock, Building2, MapPin, Phone } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
+import { useAppSelector } from "@/state/hooks";
 
 export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const theme = useAppSelector((state) => state.theme.theme);
+  const isDarkMode = theme === "dark";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -59,10 +62,10 @@ export default function LoginPage() {
     }
   };
 
-  const bgColor = isDarkMode ? "bg-[#1a1a1a]" : "bg-gray-50";
-  const cardBg = isDarkMode ? "bg-[#2d2d2d]" : "bg-white";
-  const textColor = isDarkMode ? "text-gray-100" : "text-gray-900";
-  const textSecondary = isDarkMode ? "text-gray-400" : "text-gray-600";
+  const bgColor = isDarkMode ? "bg-[#262626]" : "bg-gray-50";
+  const cardBg = isDarkMode ? "bg-[#323232]" : "bg-white";
+  const textColor = isDarkMode ? "text-[#EBEBEB]" : "text-gray-900";
+  const textSecondary = isDarkMode ? "text-[#D1D1D1]" : "text-gray-600";
   const inputBg = isDarkMode ? "bg-[#3a3a3a]" : "bg-white";
   const inputBorder = isDarkMode ? "border-gray-600" : "border-gray-300";
   const inputFocus = isDarkMode
@@ -71,8 +74,11 @@ export default function LoginPage() {
 
   return (
     <div
-      className={`min-h-screen ${bgColor} flex items-center justify-center px-4 transition-colors duration-200`}
+      className={`relative min-h-screen ${bgColor} flex items-center justify-center px-4 transition-colors duration-200`}
     >
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">

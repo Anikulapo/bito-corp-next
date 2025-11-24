@@ -34,6 +34,11 @@ const getInitialTheme = (): Theme => {
   return getTimeBasedTheme();
 };
 
+const applyDocumentTheme = (theme: Theme) => {
+  if (typeof document === "undefined") return;
+  document.documentElement.classList.toggle("dark", theme === "dark");
+};
+
 const initialState: ThemeState = {
   theme: "light",
 };
@@ -44,14 +49,13 @@ const themeSlice = createSlice({
   reducers: {
     hydrateTheme(state) {
       state.theme = getInitialTheme();
-      document.documentElement.classList.toggle("dark", state.theme === "dark");
+      applyDocumentTheme(state.theme);
     },
 
     setTheme(state, action: PayloadAction<Theme>) {
       state.theme = action.payload;
-      document.documentElement.classList.toggle("dark", action.payload === "dark");
+      applyDocumentTheme(state.theme);
     },
-
   },
 });
 
