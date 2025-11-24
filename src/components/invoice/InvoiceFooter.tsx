@@ -40,8 +40,8 @@ const invoiceCount = invoice.length
               onClick={() => dispatch(setCurrentPage(page))}
               className={`w-8 h-8 flex justify-center items-center border rounded-md cursor-pointer
                 ${isActive
-                  ? "bg-[#EDEEFF] border-[#686DF4] text-[#686DF4]"
-                  : "bg-white border-[#AAADB1] text-black"}
+                  ? "bg-[#EDEEFF] border-[#686DF4] text-[#686DF4] dark:text-[#A7AAFF] dark:border-[#9195FF] dark:bg-[#3F3F3F]"
+                  : "bg-white border-[#AAADB1] text-black dark:border-[#707070] dark:text-[#D1D1D1]"}
               `}
             >
               {page}
