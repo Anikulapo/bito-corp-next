@@ -39,7 +39,7 @@ export default function InvoiceRow({
           className="w-4 h-4 rounded border-[#E1E3E6] focus:ring-blue-500 accent-[#0265DC]"
         />
       </td>
-      <td className="px-6 py-4 text-[#0265DC] font-medium hover:underline cursor-pointer">
+      <td className="px-6 py-4 text-[#0265DC] dark:text-[#72B7F9] font-medium hover:underline cursor-pointer">
         {invoice.id}
       </td>
       <td className="px-6 py-4 text-secondary">{invoice.issueDate}</td>
